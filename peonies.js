@@ -1,5 +1,5 @@
 /* ============================================================
-   The Bouquet — 15 named peonies, zigzag arrangement
+   The Bouquet, 15 named peonies, zigzag arrangement
    ============================================================ */
 (function(){
 
@@ -7,7 +7,7 @@
   // and visual params (hue / saturation / lightness for tint, fullness, openness).
   const PEONIES = [
     { name:'Liora',     desc:'the softest bloom',
-      note:'no. 1 — top left, where every story begins',
+      note:'no. 1, top left, where every story begins',
       hue:348, sat:32, light:84, fullness:0.85, rings:3 },
     { name:'Seraphine', desc:'dramatic petals, very angelic',
       note:'wings of a girl who is shy in capital letters',
@@ -48,13 +48,13 @@
     { name:'Elowen',    desc:'a soft but strong bloom',
       note:'quietly held it together for the others',
       hue:344, sat:42, light:75, fullness:1.00, rings:4 },
-    { name:'Evangeline',desc:'the last one — feels poetic, like a goodbye flower',
+    { name:'Evangeline',desc:'the last one, feels poetic, like a goodbye flower',
       note:'wilted gently. still loved the same.',
       hue:25,  sat:20, light:74, fullness:0.85, rings:3, wilted:true },
   ];
 
   // Render an SVG peony from a spec. The flower is built from concentric
-  // rings of ellipses rotated around the center — simple primitives only.
+  // rings of ellipses rotated around the center, simple primitives only.
   function makePeonySVG(p, idx){
     const cx = 100, cy = 100;
     const baseColor    = `hsl(${p.hue}, ${p.sat}%, ${p.light}%)`;
@@ -166,7 +166,7 @@
       cell.style.gridRow    = row;
       cell.style.gridColumn = col;
       cell.setAttribute('data-idx', i);
-      cell.setAttribute('aria-label', `${p.name} — ${p.desc}`);
+      cell.setAttribute('aria-label', `${p.name}, ${p.desc}`);
       cell.innerHTML = `
         <span class="peony-num">${i+1}</span>
         ${makePeonySVG(p, i)}
@@ -178,7 +178,7 @@
     });
 
     // Auto-focus the wilted one first so the story registers immediately…
-    // …actually, no. Open with Liora — the beginning.
+    // …actually, no. Open with Liora, the beginning.
     focusPeony(0);
   }
 
