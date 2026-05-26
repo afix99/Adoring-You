@@ -65,6 +65,36 @@
     });
   });
 
+  /* ---------- Floating birthday letter ---------- */
+  const letterBtn     = document.getElementById('floating-letter-btn');
+  const letterOverlay = document.getElementById('birthday-letter-overlay');
+  const letterClose   = document.getElementById('letter-close-btn');
+
+  function openLetter(){
+    letterOverlay.classList.add('open');
+    letterOverlay.setAttribute('aria-hidden','false');
+    letterClose.focus();
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLetter(){
+    letterOverlay.classList.remove('open');
+    letterOverlay.setAttribute('aria-hidden','true');
+    letterBtn.focus();
+    document.body.style.overflow = '';
+  }
+
+  if(letterBtn && letterOverlay && letterClose){
+    letterBtn.addEventListener('click', openLetter);
+    letterClose.addEventListener('click', closeLetter);
+    letterOverlay.addEventListener('click', (e) => {
+      if(e.target === letterOverlay) closeLetter();
+    });
+    document.addEventListener('keydown', (e) => {
+      if(e.key === 'Escape' && letterOverlay.classList.contains('open')) closeLetter();
+    });
+    letterOverlay.setAttribute('aria-hidden','true');
+  }
+
   /* ---------- Gentle hero parallax (peony bloom only) ---------- */
   let ticking = false;
   window.addEventListener('scroll', () => {

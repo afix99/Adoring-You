@@ -3,6 +3,246 @@
    ============================================================ */
 
 /* ============================================================
+   FLOATING BIRTHDAY LETTER
+   ============================================================ */
+@keyframes floatEnvelope {
+  0%,100% { transform: translateY(0) rotate(-3deg); }
+  50%     { transform: translateY(-12px) rotate(2deg); }
+}
+@keyframes pulseBadge {
+  0%,100% { transform: scale(1); }
+  50%     { transform: scale(1.18); }
+}
+@keyframes letterUnfold {
+  from { opacity:0; transform: scale(0.88) translateY(24px); }
+  to   { opacity:1; transform: scale(1) translateY(0); }
+}
+@keyframes overlayFadeIn {
+  from { opacity:0; }
+  to   { opacity:1; }
+}
+
+.floating-letter-btn {
+  position: fixed;
+  bottom: 36px;
+  left: 36px;
+  z-index: 200;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--paper);
+  border: 1.5px solid var(--rule);
+  box-shadow:
+    0 8px 32px rgba(var(--shadow-tint)/0.22),
+    0 2px 8px rgba(var(--shadow-tint)/0.12);
+  cursor: pointer;
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: floatEnvelope 4s ease-in-out infinite;
+  transition: box-shadow .3s ease, background .3s ease;
+}
+.floating-letter-btn:hover,
+.floating-letter-btn:focus-visible {
+  background: var(--blush);
+  box-shadow:
+    0 12px 40px rgba(var(--shadow-tint)/0.30),
+    0 4px 12px rgba(var(--shadow-tint)/0.18);
+  outline: none;
+}
+.letter-envelope { width: 100%; height: auto; }
+
+.letter-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: var(--rose-deep);
+  color: var(--paper);
+  font-family: var(--sans);
+  font-size: 9px;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+  border-radius: 20px;
+  padding: 2px 7px;
+  white-space: nowrap;
+  animation: pulseBadge 2.2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Overlay backdrop */
+.birthday-letter-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  background: rgba(45, 33, 40, 0.62);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .4s ease;
+}
+.birthday-letter-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Letter card */
+.birthday-letter-card {
+  position: relative;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  max-width: 560px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow:
+    0 32px 80px rgba(var(--shadow-tint)/0.36),
+    0 8px 24px rgba(var(--shadow-tint)/0.16);
+  animation: letterUnfold .5s cubic-bezier(.22,.68,0,1.3) both;
+  scroll-behavior: smooth;
+}
+.birthday-letter-overlay.open .birthday-letter-card {
+  animation: letterUnfold .5s cubic-bezier(.22,.68,0,1.3) both;
+}
+
+.birthday-letter-inner {
+  padding: 52px 44px 44px;
+  text-align: center;
+}
+
+.letter-close-btn {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-family: var(--sans);
+  font-size: 16px;
+  color: var(--ink-soft);
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity .2s ease;
+  padding: 4px 8px;
+  line-height: 1;
+}
+.letter-close-btn:hover { opacity: 1; }
+
+.birthday-eyebrow {
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: 0.48em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 28px;
+}
+
+.birthday-shout {
+  font-family: var(--display);
+  color: var(--plum);
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.birthday-shout span:first-child {
+  font-size: clamp(32px, 8vw, 54px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.birthday-date-line {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(15px, 3.5vw, 20px);
+  color: var(--rose-deep);
+  font-weight: 300;
+  letter-spacing: 0.04em;
+}
+
+.birthday-names {
+  font-family: var(--sans);
+  font-size: clamp(11px, 2.2vw, 13px);
+  letter-spacing: 0.30em;
+  text-transform: uppercase;
+  color: var(--rose);
+  line-height: 2;
+  margin-bottom: 32px;
+  font-weight: 400;
+}
+.birthday-names div:first-child {
+  color: var(--rose-deep);
+  font-weight: 500;
+  font-size: clamp(12px, 2.6vw, 14px);
+}
+
+.birthday-body {
+  font-family: var(--serif);
+  font-size: clamp(15px, 2.2vw, 17px);
+  line-height: 1.78;
+  color: var(--ink-soft);
+  text-align: left;
+  margin-bottom: 28px;
+  border-top: 1px solid var(--rule);
+  padding-top: 28px;
+}
+.birthday-body p { margin-bottom: 18px; }
+.birthday-body p:last-child { margin-bottom: 0; }
+.birthday-body em { color: var(--rose-deep); font-style: italic; }
+.birthday-body strong { color: var(--plum); font-weight: 500; }
+
+.birthday-question {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(17px, 3vw, 21px) !important;
+  color: var(--plum) !important;
+  text-align: center;
+  padding: 12px 0;
+}
+
+.birthday-close-line {
+  font-size: clamp(16px, 2.4vw, 19px) !important;
+  color: var(--rose-deep) !important;
+  text-align: center;
+}
+
+.birthday-signoff {
+  font-family: var(--hand);
+  font-size: clamp(17px, 3vw, 22px);
+  color: var(--ink-soft);
+  line-height: 1.6;
+  border-top: 1px solid var(--rule);
+  padding-top: 20px;
+  text-align: right;
+}
+.birthday-signoff span {
+  display: block;
+  color: var(--rose-deep);
+  font-size: 1.15em;
+}
+
+.birthday-petals-deco {
+  margin-top: 20px;
+  font-size: 18px;
+  letter-spacing: 0.6em;
+  color: var(--rose);
+  opacity: 0.6;
+}
+
+@media (max-width: 560px) {
+  .floating-letter-btn { bottom: 24px; left: 24px; width: 60px; height: 60px; padding: 12px; }
+  .birthday-letter-inner { padding: 44px 24px 32px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .floating-letter-btn { animation: none; }
+  .letter-badge { animation: none; }
+}
+
+/* ============================================================
    HERO — quiet, still, single bloom
    ============================================================ */
 .hero{
