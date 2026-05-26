@@ -170,45 +170,6 @@
     updateBirthdayCounter();
   }
 
-  /* ---------- Night mode (after 8pm her time) ---------- */
-  function checkNightMode(){
-    const h = new Date().getHours();
-    document.body.classList.toggle('night', h >= 20 || h < 6);
-  }
-  checkNightMode();
-  setInterval(checkNightMode, 60*1000);
-
-  /* ---------- Guestbook (localStorage) ---------- */
-  const gbText  = document.getElementById('guestbook-text');
-  const gbSave  = document.getElementById('guestbook-save');
-  const gbSaved = document.getElementById('guestbook-saved');
-  function escapeHtml(s){
-    return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  }
-  function renderGuestbook(){
-    if(!gbSaved) return;
-    const raw = localStorage.getItem('memey-guestbook-2026');
-    if(!raw){ gbSaved.innerHTML = ''; return; }
-    try {
-      const data = JSON.parse(raw);
-      const when = new Date(data.t).toLocaleString('en-GB', { day:'numeric', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
-      gbSaved.innerHTML = '<div class="saved-note">' + escapeHtml(data.note) +
-        '<span class="saved-meta">saved · ' + escapeHtml(when) + '</span></div>';
-    } catch(e){
-      gbSaved.innerHTML = '<div class="saved-note">' + escapeHtml(raw) + '</div>';
-    }
-  }
-  if(gbSave && gbText){
-    gbSave.addEventListener('click', () => {
-      const text = gbText.value.trim();
-      if(!text) return;
-      localStorage.setItem('memey-guestbook-2026', JSON.stringify({ note: text, t: Date.now() }));
-      renderGuestbook();
-      gbText.value = '';
-    });
-    renderGuestbook();
-  }
-
   /* ---------- Gentle hero parallax (peony bloom only) ---------- */
   let ticking = false;
   window.addEventListener('scroll', () => {
